@@ -1,0 +1,35 @@
+resources:
+  jobs:
+    wf_test:
+      deployment:
+        kind: BUNDLE
+        metadata_file_path: /Workspace/Users/3496ab69-18bc-4781-b0db-e1bfb9f6b2ce/.bundle/dabs_banco_demo/test/state/metadata.json
+      edit_mode: UI_LOCKED
+      format: MULTI_TASK
+      max_concurrent_runs: 1
+      name: wf_test
+      parameters:
+      - default: elasticnetdiabetes_endpoint
+        name: endpoint_name
+      - default: dbc-3da7f034-dce2.cloud.databricks.com
+        name: workspace_url
+      - default: elasticnetdiabetes
+        name: model_name
+      - default: '5'
+        name: model_version
+      performance_target: STANDARD
+      queue:
+        enabled: true
+      tasks:
+      - notebook_task:
+          base_parameters:
+            endpoint_name: elasticnetdiabetes_endpoint
+            model_name: elasticnetdiabetes
+            model_version: '5'
+            workspace_url: dbc-3da7f034-dce2.cloud.databricks.com
+          notebook_path: /Workspace/Users/saravanakumar@opsera.io/Notebook_serving_endpoint_validation
+          source: WORKSPACE
+        run_if: ALL_SUCCESS
+        task_key: model_validation
+        timeout_seconds: 0
+      timeout_seconds: 0
